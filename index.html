@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable = yes"> -->
+      <meta name="description" content="A website to help Ryerson University students create mock time tables.">
+      <meta name="author" content="Ali Irfan">
+      <title>RyPlanner</title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+      <!-- Bootstrap core CSS -->
+      <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+      <link href="assets/css/styles.css" rel="stylesheet">
+      <link href="assets/css/animate.css" rel="stylesheet">
+      <!-- Custom styles for this template -->
+      <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+      <link href="dashboard.css" rel="stylesheet">
+      <link href="plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
+      <link rel="icon"
+         type="image/png"
+         href="favicon.ico">
+      <script type="text/javascript">
+         $(function(){
+         if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+           var ww = ( $(window).width() < window.screen.width ) ? $(window).width() : window.screen.width; //get proper width
+           var mw = 480; // min width of site
+           var ratio =  ww / mw; //calculate ratio
+           if( ww < mw){ //smaller than minimum size
+            $('#Viewport').attr('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=yes, width=' + ww);
+           }else{ //regular size
+            $('#Viewport').attr('content', 'initial-scale=1.0, maximum-scale=2, minimum-scale=1.0, user-scalable=yes, width=' + ww);
+           }
+         }
+         });
+      </script>
+      <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+      <![endif]-->
+   </head>
+   <body>          <div class="calendarContainer">
+                  <!--   <h1 class="page-header">RAMSS Planner</h1> -->
+                  <div id="calendar" class="pg-empty-placeholder"></div>
+               </div>
+      <div class="container">
+         <!-- THIS IS THE CONTENT WRAPPER START -->
+         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid ryerson-gradient">
+               <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand ryerson-text-color" href="#" >Ry<span style="color:#ffcf15;"onClick ="$('#classTable').tableExport({type:'png',escape:'false'});"s>Planner</a>
+               </div>
+               <div class="navbar-collapse collapse">
+                  <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" style="color:white;font-family:'Typograph2'" id="saveAsPng">SAVE AS IMAGE</a>
+                     </li>
+                     <li>
+                        <a href="#" style="color:white;font-family:'Typograph2'" id-"bugReport" data-toggle="modal" data-target="#myModal2" >REPORT A BUG</a>
+                     </li>
+                     <li>
+                        <a href="#" style="color:white;font-family:'Typograph2'" id="resetButton">RESET</a>
+                     </li>
+                     <li>
+                        <a href="#" id="about" style="color:white;font-family:'Typograph2'" data-toggle="modal" data-target="#myModal">ABOUT</a>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+         <div class="container-fluid">
+            <div class="row">
+               <div class="col-sm-3 sidebar sidebar-restriction ryerson-yellow">
+                  <form role="form" id ="searchPad">
+                     <div class="form-group has-feedback">
+                        <input type="search" class="form-control" id="searchQuery" placeholder="E.g. ACC 100, Finance, 8529">
+                        <div id = "loader" class="form-control-feedback">
+                           <i class="glyphicon glyphicon-search"></i>
+                        </div>
+                        <div class = "containerForResults row">
+                           <!-- <div id="results" class="col-xs-6 myDiv"></div> -->
+                           <!-- <div id="info" class="col-xs-6 myDiv"></div> -->
+                        </div>
+                     </div>
+                     <div class="checkbox"> </div>
+                  </form>
+                  <div class="x">
+                     <div id="results" class="col-xs-6 myDiv"></div>
+                     <ul class="list-group course-list" id="course-list">
+                     <br>
+                  </div>
+                  <div>
+                  </div>
+                  <div class="checkbox"> </div>
+               </div>
+               <div class="col-sm-3 sidebar2 myDiv sidebar-restriction ryerson-yellow">
+                    <div id="info" class="col-xs-6 myDiv"></div>
+                </div>
+
+            </div>
+         </div>
+         <!-- Modal -->
+         <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+               <!-- Modal content-->
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     <h4 class="modal-title">About RyPlanner</h4>
+                  </div>
+                  <div class="modal-body">
+                     <p>RyPlanner is a website that helps Ryerson University students plan out their timetables!<br><br>
+                        <span style="display:none;">RyPlanner is a website that helps Ryerson University students plan out their timetables!</span>
+                        This website is currently in development! Features still being added include:<br>
+                        <s>A better UI</s><br>
+                        Automatic schedule making based on courses and professors you pick <br>
+                        Automatic time-based schedule making<br>
+                        <s>Include professor rankings based of RateMyProfessors.com</s><br>
+                        Much more small features to come!<br><br>
+                     <center>
+                        Let me know what you think by contacting me at ali.irfan@ryerson.ca!<br><br><br>
+                        Hosting isn't free, help the website by donating!
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                           <input type="hidden" name="cmd" value="_s-xclick">
+                           <input type="hidden" name="hosted_button_id" value="TMYFGJEYFZG48">
+                           <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                           <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                        </form>
+                        <br><br><br><br>
+                        RyPlanner.com is not officially affiliated with Ryerson University in any way.<br>
+                        Professor Ratings extracted from <a href="http://ratemyprofessors.com">RateMyProfessors.com</a>
+                        <br><br>
+                        Disclaimer: Professor ratings are extracted from an external website and may be inaccurate and do not reflect RyPlanner's opinions on certain professors.
+                        <br><br>
+                        © 2015-2016 RyPlanner.com - Designed and developed by Ali Irfan<br>
+                        Last database update: 12/26/2015
+                     </center>
+                     </p>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- Modal -->
+         <div id="myModal2" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+               <!-- Modal content-->
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     <h4 class="modal-title">About RyPlanner</h4>
+                  </div>
+                  <div class="modal-body">
+                     <p>Report a bug!</p>
+                     
+                     <center>
+                        Fill out the form below describing the bug with as much info possible, this includes specifically what courses you're working with, browser, Mac/PC, screen resolution, etc.
+                        <form>
+                           <div class="form-group">
+                            <label for="comment">Report the bug below:</label>
+                            <textarea class="form-control" rows="5" id="bodyText"></textarea>
+                          </div>
+                        </form>
+                        <button id="bug">Send report</button>
+                        <br><br><br><br>
+                        RyPlanner.com is not officially affiliated with Ryerson University in any way.<br>
+                        Professor Ratings extracted from <a href="http://ratemyprofessors.com">RateMyProfessors.com</a>
+                        <br><br>
+                        Disclaimer: Professor ratings are extracted from an external website and may be inaccurate and do not reflect RyPlanner's opinions on certain professors.
+                        <br><br>
+                        © 2015-2016 RyPlanner.com - Designed and developed by Ali Irfan<br>
+                        Last database update: 12/26/2015
+                     </center>
+                     </p>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- THIS IS THE CONTENT WRAPPER END -->
+   </body>
+   <!-- Bootstrap core JavaScript
+      ================================================== -->
+   <!-- Placed at the end of the document so the pages load faster -->
+   <script src="bootstrap/js/bootstrap.min.js"></script>
+   <script src="assets/js/jquery.cookie.js"></script>
+   <script src="assets/js/main.js"></script>
+   <script src="plugins/fullcalendar/moment.js"></script>
+   <script src="plugins/fullcalendar/fullcalendar.js"></script>
+   <script type="text/javascript" src="assets/js/tableExport.js"></script>
+   <script type="text/javascript" src="assets/js/jquery.base64.js"></script>
+   <script type="text/javascript" src="assets/js/html2canvas.js"></script>
+   <script type="text/javascript" src="assets/js/Canvas2Image.js"></script>
+   <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      
+      ga('create', 'UA-53255748-3', 'auto');
+      ga('send', 'pageview');
+      
+   </script>
+   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+   <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+   </body>
+</html>

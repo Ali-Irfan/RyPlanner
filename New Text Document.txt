@@ -1,0 +1,6 @@
+    RewriteEngine On
+            RewriteCond %{HTTP_HOST} ^(www.)?ryplanner.com$ [NC]
+            RewriteCond %{REQUEST_URI} ^/assets/(.*)$ [OR]
+            RewriteCond %{REQUEST_URI} ^/lolpages/(.*)$ [OR]
+            RewriteCond %{REQUEST_URI} ^/plugins/(.*)$
+            RewriteRule ^(.*)$ - [L,R=404]
