@@ -5,6 +5,16 @@ ehthumbs.db
 # Folder config file
 Desktop.ini
 
+# Custom Folder Ignore
+/pkh
+/plugins
+/LoLPages
+/CronosDesigns
+/a
+/bootstrap
+/new
+
+
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
